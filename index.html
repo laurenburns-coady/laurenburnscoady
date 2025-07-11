@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lauren Burns-Coady</title>
+  <title>lauren burns-coady</title>
   <style>
     html, body {
       margin: 0;
@@ -24,7 +24,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: scrollUp 60s linear infinite;
+      animation: scrollUp 30s linear infinite; /* faster scroll */
     }
 
     @keyframes scrollUp {
@@ -40,6 +40,8 @@
       user-select: none;
       pointer-events: none;
       text-transform: none; /* lowercase */
+      white-space: nowrap;  /* no wrapping for multi-word */
+      text-align: center;
     }
 
     .name {
@@ -53,6 +55,7 @@
       width: 100%;
       overflow-wrap: normal;
       margin-top: 25vh;
+      text-transform: lowercase;
     }
 
     .links {
@@ -62,8 +65,10 @@
       justify-content: center;
       gap: 6vw;
       margin-top: 2vh;
-      font-size: 12vw;
+      font-size: 6vw; /* smaller */
       white-space: nowrap;
+      font-weight: bold;
+      text-transform: lowercase;
     }
 
     .links a {
@@ -82,7 +87,7 @@
   <div class="scrolling-words" id="scrollingContainer"></div>
 
   <div class="name">
-    Lauren Burns-Coady
+    lauren burns-coady
   </div>
 
   <div class="links">
@@ -100,7 +105,11 @@
       "web development",
       "research",
       "screenwriting",
-      "filmmaking"
+      "filmmaking",
+      "communications",
+      "strategy",
+      "management",
+      "project management"
     ];
 
     const container = document.getElementById('scrollingContainer');
@@ -116,20 +125,20 @@
         // Color changing for each word (instant switch)
         function changeColor() {
           div.style.color = `hsl(${Math.floor(Math.random()*360)}, 80%, 60%)`;
-          const nextTime = 1500 + Math.random() * 1500; // 1.5–3 seconds
+          const nextTime = 1500 + Math.random() * 1500; // 1.5–3 sec
           setTimeout(changeColor, nextTime);
         }
         changeColor();
       });
     }
 
-    // Background color changing (instant switch, independent schedule)
+    // Background color changing (instant switch)
     function changeBackground() {
       const hue = Math.floor(Math.random()*360);
       const newColor = `hsl(${hue}, 50%, 15%)`;
       document.documentElement.style.background = newColor;
       document.body.style.background = newColor;
-      const nextTime = 1500 + Math.random() * 1500; // 1.5–3 seconds
+      const nextTime = 1500 + Math.random() * 1500; // 1.5–3 sec
       setTimeout(changeBackground, nextTime);
     }
     changeBackground();

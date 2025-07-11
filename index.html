@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>lauren burns-coady</title>
+  <title>lauren burns coady</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       overflow: hidden;
-      font-family: sans-serif;
+      font-family: 'Times New Roman', serif;
       background: black;
       width: 100%;
       height: 100%;
@@ -26,30 +26,31 @@
     }
 
     .word {
-      font-size: 10vw; /* smaller to prevent cut-off */
-      font-weight: normal; /* not bold */
+      font-size: 10vw;
+      font-weight: bold;
       line-height: 1.2;
       opacity: 0.8;
       user-select: none;
       pointer-events: none;
-      text-transform: none; /* lowercase */
       white-space: nowrap;
       text-align: center;
-      padding: 0 5vw; /* extra space on sides */
+      padding: 0 5vw;
+      text-transform: none;
+      font-family: 'Times New Roman', serif;
     }
 
     .name {
       position: relative;
       z-index: 2;
       color: white;
-      font-weight: normal; /* not bold */
+      font-weight: bold;
       font-size: 10vw;
       text-align: center;
       white-space: nowrap;
       width: 100%;
-      overflow-wrap: normal;
       margin-top: 25vh;
       text-transform: lowercase;
+      font-family: 'Times New Roman', serif;
     }
 
     .links {
@@ -61,8 +62,9 @@
       margin-top: 2vh;
       font-size: 6vw;
       white-space: nowrap;
-      font-weight: normal; /* not bold */
+      font-weight: bold;
       text-transform: lowercase;
+      font-family: 'Times New Roman', serif;
     }
 
     .links a {
@@ -81,7 +83,7 @@
   <div class="scrolling-words" id="scrollingContainer"></div>
 
   <div class="name">
-    lauren burns-coady
+    lauren burns coady
   </div>
 
   <div class="links">
@@ -108,34 +110,32 @@
 
     const container = document.getElementById('scrollingContainer');
 
-    // Fill with many repeated words
     const allWords = [];
     for (let i = 0; i < 30; i++) {
       allWords.push(...words);
     }
 
-    // Create divs
     allWords.forEach(word => {
       const div = document.createElement('div');
       div.className = 'word';
       div.textContent = word;
       container.appendChild(div);
 
-      // Color changing for each word
       function changeColor() {
-        div.style.color = `hsl(${Math.floor(Math.random()*360)}, 80%, 60%)`;
+        const hue = Math.floor(Math.random() * 360);
+        const saturation = 30 + Math.random() * 70; // 30–100%
+        const lightness = 30 + Math.random() * 50;  // 30–80%
+        div.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         const nextTime = 1500 + Math.random() * 1500;
         setTimeout(changeColor, nextTime);
       }
       changeColor();
     });
 
-    // Smooth continuous scrolling using requestAnimationFrame
     let offset = 0;
     function scroll() {
-      offset -= 0.3; // adjust for faster/slower scroll
+      offset -= 1.2; // faster scroll
       container.style.transform = `translateY(${offset}px)`;
-      // reset when scrolled past all children
       if (Math.abs(offset) >= container.scrollHeight / 2) {
         offset = 0;
       }
@@ -143,10 +143,11 @@
     }
     scroll();
 
-    // Background color changing
     function changeBackground() {
-      const hue = Math.floor(Math.random()*360);
-      const newColor = `hsl(${hue}, 50%, 15%)`;
+      const hue = Math.floor(Math.random() * 360);
+      const saturation = 30 + Math.random() * 70;
+      const lightness = 10 + Math.random() * 40;
+      const newColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
       document.documentElement.style.background = newColor;
       document.body.style.background = newColor;
       const nextTime = 1500 + Math.random() * 1500;

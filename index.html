@@ -2,133 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lauren Burns-Coady</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100vh;
-      width: 100%;
-      background: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      overflow-x: hidden;
+      overflow: hidden;
+      background: black;
+      font-family: sans-serif;
     }
-    .line {
-      font-size: 10vw;
-      line-height: 1.1;
+
+    /* Background words container */
+    .scrolling-words {
+      position: absolute;
+      width: 100%;
+      height: 200%;
+      top: 0;
+      left: 0;
+      color: white;
+      font-size: 2vw;
+      opacity: 0.2;
+      animation: scrollUp 30s linear infinite;
+    }
+
+    @keyframes scrollUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+
+    .word {
       width: 100%;
       text-align: center;
-      opacity: 0;
-      transition: opacity 1s ease, color 0.3s ease;
+      line-height: 2;
+    }
+
+    /* Foreground name */
+    .name {
       position: relative;
-      z-index: 1;
-      word-wrap: break-word;
+      z-index: 2;
+      color: white;
       font-weight: bold;
-      cursor: default;
+      font-size: 10vw;
+      text-align: center;
+      letter-spacing: 0.1em;
+      margin-top: 20vh;
     }
-    .link:hover {
-      color: #39ff14 !important;
-      z-index: 1000;
+
+    /* Links under name */
+    .links {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 4vw;
+      margin-top: 2vh;
+      font-size: 2vw; /* same size as scrolling words */
     }
-    @media(max-width:600px) {
-      .line {
-        font-size: 15vw;
-      }
+
+    .links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .links a:hover {
+      color: limegreen;
     }
   </style>
 </head>
 <body>
-  <div id="container"></div>
+
+  <div class="scrolling-words" id="scrollingContainer">
+    <!-- Words will be inserted here by JavaScript -->
+  </div>
+
+  <div class="name">
+    Lauren Burns-Coady
+  </div>
+
+  <div class="links">
+    <a href="mailto:lbc@laurenburnscoady.com">email</a>
+    <a href="https://www.are.na/laurenburnscoady" target="_blank">images</a>
+  </div>
 
   <script>
-    const skills = [
-      "art",
+    const words = [
       "writing",
       "creative consulting",
       "editing",
       "production",
       "creative direction",
-      "brand strategy",
       "web development",
       "research",
-      "data visualization"
+      "screenwriting",
+      "filmmaking"
     ];
 
-    const container = document.getElementById('container');
+    const container = document.getElementById('scrollingContainer');
 
-    // Create name
-    const nameEl = document.createElement("div");
-    nameEl.className = "line link";
-    nameEl.textContent = "Lauren Burns-Coady";
-    nameEl.onclick = () => { window.location.href = "mailto:lbc@laurenburnscoady.com"; };
-    container.appendChild(nameEl);
-
-    // Create are.na
-    const arenaEl = document.createElement("div");
-    arenaEl.className = "line link";
-    arenaEl.textContent = "are.na";
-    arenaEl.onclick = () => { window.open("https://www.are.na/lauren-burns-coady/index", "_blank"); };
-    container.appendChild(arenaEl);
-
-    // Create email
-    const emailEl = document.createElement("div");
-    emailEl.className = "line link";
-    emailEl.textContent = "email";
-    emailEl.onclick = () => { window.location.href = "mailto:lbc@laurenburnscoady.com"; };
-    container.appendChild(emailEl);
-
-    const skillEls = [];
-
-    // Create skill elements
-    skills.forEach(skill => {
-      const el = document.createElement("div");
-      el.className = "line";
-      el.textContent = skill;
-      container.appendChild(el);
-      skillEls.push(el);
-    });
-
-    // Fade in core elements
-    setTimeout(() => { nameEl.style.opacity = 1; }, 200);
-    setTimeout(() => { arenaEl.style.opacity = 1; }, 600);
-    setTimeout(() => { emailEl.style.opacity = 1; }, 1000);
-
-    // Fade in skill words one by one
-    skillEls.forEach((el, i) => {
-      setTimeout(() => { el.style.opacity = 1; }, 1400 + i * 400);
-    });
-
-    // Random color generator
-    function getRandomColor() {
-      const hue = Math.floor(Math.random() * 360);
-      const saturation = Math.floor(Math.random() * 40) + 60; // 60–100%
-      const lightness = Math.floor(Math.random() * 50) + 30; // 30–80%
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    // Repeat the words multiple times to fill space
+    for (let i = 0; i < 30; i++) {
+      words.forEach(word => {
+        const div = document.createElement('div');
+        div.className = 'word';
+        div.textContent = word;
+        container.appendChild(div);
+      });
     }
-
-    // Start color cycling for each skill word
-    skillEls.forEach(el => {
-      function changeColor() {
-        el.style.color = getRandomColor();
-        const interval = 2000 + Math.random() * 2000; // 2–4s
-        setTimeout(changeColor, interval);
-      }
-      changeColor();
-    });
-
-    // Start background color cycling
-    function changeBackground() {
-      document.body.style.backgroundColor = getRandomColor();
-      const interval = 2000 + Math.random() * 2000; // 2–4s
-      setTimeout(changeBackground, interval);
-    }
-    changeBackground();
   </script>
 </body>
 </html>
-

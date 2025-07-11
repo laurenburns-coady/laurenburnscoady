@@ -18,37 +18,31 @@
     .scrolling-words {
       position: absolute;
       width: 100%;
-      height: 300%;
       top: 0;
       left: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: scrollUp 30s linear infinite; /* faster scroll */
-    }
-
-    @keyframes scrollUp {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-66%); }
     }
 
     .word {
-      font-size: 12vw;
-      font-weight: bold;
+      font-size: 10vw; /* smaller to prevent cut-off */
+      font-weight: normal; /* not bold */
       line-height: 1.2;
       opacity: 0.8;
       user-select: none;
       pointer-events: none;
       text-transform: none; /* lowercase */
-      white-space: nowrap;  /* no wrapping for multi-word */
+      white-space: nowrap;
       text-align: center;
+      padding: 0 5vw; /* extra space on sides */
     }
 
     .name {
       position: relative;
       z-index: 2;
       color: white;
-      font-weight: bold;
+      font-weight: normal; /* not bold */
       font-size: 10vw;
       text-align: center;
       white-space: nowrap;
@@ -65,9 +59,9 @@
       justify-content: center;
       gap: 6vw;
       margin-top: 2vh;
-      font-size: 6vw; /* smaller */
+      font-size: 6vw;
       white-space: nowrap;
-      font-weight: bold;
+      font-weight: normal; /* not bold */
       text-transform: lowercase;
     }
 
@@ -91,9 +85,9 @@
   </div>
 
   <div class="links">
-  <a href="mailto:lbc@laurenburnscoady.com">email</a>
-  <a href="https://www.are.na/lauren-burns-coady/index" target="_blank">are.na</a>
-</div>
+    <a href="mailto:lbc@laurenburnscoady.com">email</a>
+    <a href="https://www.are.na/lauren-burns-coady/index" target="_blank">are.na</a>
+  </div>
 
   <script>
     const words = [
@@ -114,31 +108,48 @@
 
     const container = document.getElementById('scrollingContainer');
 
-    // Create repeated words
+    // Fill with many repeated words
+    const allWords = [];
     for (let i = 0; i < 30; i++) {
-      words.forEach(word => {
-        const div = document.createElement('div');
-        div.className = 'word';
-        div.textContent = word;
-        container.appendChild(div);
-
-        // Color changing for each word (instant switch)
-        function changeColor() {
-          div.style.color = `hsl(${Math.floor(Math.random()*360)}, 80%, 60%)`;
-          const nextTime = 1500 + Math.random() * 1500; // 1.5–3 sec
-          setTimeout(changeColor, nextTime);
-        }
-        changeColor();
-      });
+      allWords.push(...words);
     }
 
-    // Background color changing (instant switch)
+    // Create divs
+    allWords.forEach(word => {
+      const div = document.createElement('div');
+      div.className = 'word';
+      div.textContent = word;
+      container.appendChild(div);
+
+      // Color changing for each word
+      function changeColor() {
+        div.style.color = `hsl(${Math.floor(Math.random()*360)}, 80%, 60%)`;
+        const nextTime = 1500 + Math.random() * 1500;
+        setTimeout(changeColor, nextTime);
+      }
+      changeColor();
+    });
+
+    // Smooth continuous scrolling using requestAnimationFrame
+    let offset = 0;
+    function scroll() {
+      offset -= 0.3; // adjust for faster/slower scroll
+      container.style.transform = `translateY(${offset}px)`;
+      // reset when scrolled past all children
+      if (Math.abs(offset) >= container.scrollHeight / 2) {
+        offset = 0;
+      }
+      requestAnimationFrame(scroll);
+    }
+    scroll();
+
+    // Background color changing
     function changeBackground() {
       const hue = Math.floor(Math.random()*360);
       const newColor = `hsl(${hue}, 50%, 15%)`;
       document.documentElement.style.background = newColor;
       document.body.style.background = newColor;
-      const nextTime = 1500 + Math.random() * 1500; // 1.5–3 sec
+      const nextTime = 1500 + Math.random() * 1500;
       setTimeout(changeBackground, nextTime);
     }
     changeBackground();

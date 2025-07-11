@@ -9,65 +9,41 @@
       padding: 0;
       height: 100vh;
       width: 100%;
-      background: #ffffff;
-      color: #000000;
+      background: #000;
+      color: #fff;
       font-family: Arial, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      position: relative;
+      flex-direction: column;
+      overflow-x: hidden;
     }
-    .core {
+    .line {
+      font-size: 10vw;
+      line-height: 1.1;
+      width: 100%;
       text-align: center;
-      z-index: 10;
       opacity: 0;
-      transition: opacity 2s ease;
+      transition: opacity 1s ease, color 0.3s ease;
+      position: relative;
+      z-index: 1;
+      word-wrap: break-word;
+      cursor: default;
     }
-    .core h1 {
-      font-size: 6vw;
-      margin: 0;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    .core .link {
-      font-size: 2vw;
-      display: block;
-      margin-top: 1vh;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    .core .link:hover,
-    .core h1:hover {
-      color: #39ff14;
-    }
-    .word {
-      position: absolute;
-      opacity: 0;
-      font-weight: 400;
-      white-space: nowrap;
-      transition: opacity 1s ease;
-      user-select: none;
+    .link:hover {
+      color: #39ff14 !important;
+      z-index: 1000;
     }
     @media(max-width:600px) {
-      .core h1 {
-        font-size: 12vw;
-      }
-      .core .link {
-        font-size: 6vw;
-      }
-      .word {
-        font-size: 4vw !important;
+      .line {
+        font-size: 15vw;
       }
     }
   </style>
 </head>
 <body>
-  <div class="core" id="core">
-    <h1 id="name">Lauren Burns-Coady</h1>
-    <a href="https://www.are.na/lauren-burns-coady/index" class="link" target="_blank">are.na</a>
-    <a href="mailto:lbc@laurenburnscoady.com" class="link">email</a>
-  </div>
+  <div id="container"></div>
+
   <script>
     const skills = [
       "art",
@@ -82,100 +58,83 @@
       "data visualization"
     ];
 
-    const fonts = [
-      "Impact, Charcoal, sans-serif",
-      '"Times New Roman", Times, serif',
-      '"Comic Sans MS", cursive',
-      "Roboto, sans-serif",
-      '"Courier New", Courier, monospace',
-      "Georgia, serif",
-      "Verdana, sans-serif",
-      "Tahoma, sans-serif",
-      "Palatino, serif",
-      '"Trebuchet MS", sans-serif',
-      "Papyrus, fantasy",
-      '"Arial Black", Gadget, sans-serif',
-      '"Lucida Console", Monaco, monospace',
-      '"Gill Sans", sans-serif',
-      '"Franklin Gothic Medium", Arial Narrow, Arial, sans-serif',
-      '"Brush Script MT", cursive'
-    ];
+    const container = document.getElementById('container');
 
-    const colors = [
-      "#000000","#ffffff","#002ea1","#e60000","#005000","#7f00ff","#ff8000","#ff0080","#00cccc",
-      "#f5f5dc","#d2b48c","#a0522d","#8b4513","#c0c0c0","#333333",
-      "#ffe4e1","#e6e6fa","#e0ffff","#fafad2","#f0e68c",
-      "#191970","#4b0082","#2f4f4f"
-    ];
+    // Create name
+    const nameEl = document.createElement("div");
+    nameEl.className = "line link";
+    nameEl.textContent = "Lauren Burns-Coady";
+    nameEl.onclick = () => { window.location.href = "mailto:lbc@laurenburnscoady.com"; };
+    container.appendChild(nameEl);
 
-    function randomFont() {
-      return fonts[Math.floor(Math.random() * fonts.length)];
-    }
+    // Create are.na
+    const arenaEl = document.createElement("div");
+    arenaEl.className = "line link";
+    arenaEl.textContent = "are.na";
+    arenaEl.onclick = () => { window.open("https://www.are.na/lauren-burns-coady/index", "_blank"); };
+    container.appendChild(arenaEl);
 
-    function randomColor() {
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
+    // Create email
+    const emailEl = document.createElement("div");
+    emailEl.className = "line link";
+    emailEl.textContent = "email";
+    emailEl.onclick = () => { window.location.href = "mailto:lbc@laurenburnscoady.com"; };
+    container.appendChild(emailEl);
 
-    function randomPosition() {
-      return {
-        top: Math.random() * 90 + "%",
-        left: Math.random() * 90 + "%"
-      };
-    }
-
-    function randomSize() {
-      return (Math.random() * 3 + 1) + "vw";
-    }
+    const skillEls = [];
 
     // Create skill elements
-    const body = document.body;
-    const wordElements = [];
-
-    skills.forEach((skill, i) => {
-      const span = document.createElement("span");
-      span.className = "word";
-      span.textContent = skill;
-      const pos = randomPosition();
-      span.style.top = pos.top;
-      span.style.left = pos.left;
-      span.style.fontFamily = randomFont();
-      span.style.color = randomColor();
-      span.style.fontSize = randomSize();
-      body.appendChild(span);
-      wordElements.push(span);
+    skills.forEach(skill => {
+      const el = document.createElement("div");
+      el.className = "line";
+      el.textContent = skill;
+      container.appendChild(el);
+      skillEls.push(el);
     });
 
-    // Fade in words one by one
-    wordElements.forEach((el, i) => {
-      setTimeout(() => {
-        el.style.opacity = 1;
-      }, i * 300);
+    // Fade in name and links
+    setTimeout(() => { nameEl.style.opacity = 1; }, 200);
+    setTimeout(() => { arenaEl.style.opacity = 1; }, 600);
+    setTimeout(() => { emailEl.style.opacity = 1; }, 1000);
+
+    // Fade in skills one by one
+    skillEls.forEach((el, i) => {
+      setTimeout(() => { el.style.opacity = 1; }, 1400 + i * 400);
     });
 
-    // After all words appear, fade in core
-    setTimeout(() => {
-      document.getElementById("core").style.opacity = 1;
-    }, wordElements.length * 300 + 500);
+    const colors = [
+      "#ffffff",
+      "#e60000",
+      "#002ea1",
+      "#005000",
+      "#7f00ff",
+      "#ff8000",
+      "#ff0080",
+      "#00cccc",
+      "#f5f5dc",
+      "#d2b48c",
+      "#a0522d",
+      "#8b4513",
+      "#c0c0c0",
+      "#ffe4e1",
+      "#e6e6fa",
+      "#e0ffff",
+      "#fafad2",
+      "#f0e68c",
+      "#191970",
+      "#4b0082",
+      "#2f4f4f"
+    ];
 
-    // Rotate fonts and colors independently
-    wordElements.forEach(el => {
-      function updateFont() {
-        el.style.fontFamily = randomFont();
-        setTimeout(updateFont, 5000 + Math.random() * 7000);
+    // Start random color cycling for each skill word
+    skillEls.forEach(el => {
+      function changeColor() {
+        el.style.color = colors[Math.floor(Math.random() * colors.length)];
+        const interval = 2000 + Math.random() * 2000; // 2-4 seconds
+        setTimeout(changeColor, interval);
       }
-      function updateColor() {
-        el.style.color = randomColor();
-        setTimeout(updateColor, 4000 + Math.random() * 6000);
-      }
-      updateFont();
-      updateColor();
-    });
-
-    // Make name clickable mailto
-    document.getElementById("name").addEventListener("click", () => {
-      window.location.href = "mailto:lbc@laurenburnscoady.com";
+      changeColor();
     });
   </script>
 </body>
 </html>
-

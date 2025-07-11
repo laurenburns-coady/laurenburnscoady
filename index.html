@@ -94,18 +94,26 @@
   <script>
     const words = [
       "writing",
-      "creative consulting",
-      "editing",
-      "production",
-      "creative direction",
-      "web development",
       "research",
-      "screenwriting",
-      "filmmaking",
-      "communications",
-      "strategy",
-      "management",
-      "project management"
+      "creative direction",
+      "editing",
+      "curating",
+      "brand strategy",
+      "production",
+      "art direction",
+      "content development",
+      "documentation",
+      "storytelling",
+      "project management",
+      "consulting",
+      "archiving",
+      "event planning",
+      "copywriting",
+      "web development",
+      "narrative design",
+      "visual research",
+      "operations consulting",
+      "sound design"
     ];
 
     const container = document.getElementById('scrollingContainer');
@@ -123,8 +131,8 @@
 
       function changeColor() {
         const hue = Math.floor(Math.random() * 360);
-        const saturation = 30 + Math.random() * 70; // 30–100%
-        const lightness = 30 + Math.random() * 50;  // 30–80%
+        const saturation = 30 + Math.random() * 70;
+        const lightness = 30 + Math.random() * 50;
         div.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         const nextTime = 1500 + Math.random() * 1500;
         setTimeout(changeColor, nextTime);
@@ -134,7 +142,7 @@
 
     let offset = 0;
     function scroll() {
-      offset -= 1.2; // faster scroll
+      offset -= 1.2;
       container.style.transform = `translateY(${offset}px)`;
       if (Math.abs(offset) >= container.scrollHeight / 2) {
         offset = 0;

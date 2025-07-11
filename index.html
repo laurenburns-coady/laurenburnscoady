@@ -28,6 +28,7 @@
       position: relative;
       z-index: 1;
       word-wrap: break-word;
+      font-weight: bold;
       cursor: default;
     }
     .link:hover {
@@ -92,49 +93,42 @@
       skillEls.push(el);
     });
 
-    // Fade in name and links
+    // Fade in core elements
     setTimeout(() => { nameEl.style.opacity = 1; }, 200);
     setTimeout(() => { arenaEl.style.opacity = 1; }, 600);
     setTimeout(() => { emailEl.style.opacity = 1; }, 1000);
 
-    // Fade in skills one by one
+    // Fade in skill words one by one
     skillEls.forEach((el, i) => {
       setTimeout(() => { el.style.opacity = 1; }, 1400 + i * 400);
     });
 
-    const colors = [
-      "#ffffff",
-      "#e60000",
-      "#002ea1",
-      "#005000",
-      "#7f00ff",
-      "#ff8000",
-      "#ff0080",
-      "#00cccc",
-      "#f5f5dc",
-      "#d2b48c",
-      "#a0522d",
-      "#8b4513",
-      "#c0c0c0",
-      "#ffe4e1",
-      "#e6e6fa",
-      "#e0ffff",
-      "#fafad2",
-      "#f0e68c",
-      "#191970",
-      "#4b0082",
-      "#2f4f4f"
-    ];
+    // Random color generator
+    function getRandomColor() {
+      const hue = Math.floor(Math.random() * 360);
+      const saturation = Math.floor(Math.random() * 40) + 60; // 60–100%
+      const lightness = Math.floor(Math.random() * 50) + 30; // 30–80%
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
 
-    // Start random color cycling for each skill word
+    // Start color cycling for each skill word
     skillEls.forEach(el => {
       function changeColor() {
-        el.style.color = colors[Math.floor(Math.random() * colors.length)];
-        const interval = 2000 + Math.random() * 2000; // 2-4 seconds
+        el.style.color = getRandomColor();
+        const interval = 2000 + Math.random() * 2000; // 2–4s
         setTimeout(changeColor, interval);
       }
       changeColor();
     });
+
+    // Start background color cycling
+    function changeBackground() {
+      document.body.style.backgroundColor = getRandomColor();
+      const interval = 2000 + Math.random() * 2000; // 2–4s
+      setTimeout(changeBackground, interval);
+    }
+    changeBackground();
   </script>
 </body>
 </html>
+

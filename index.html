@@ -34,7 +34,6 @@
       pointer-events: none;
       white-space: nowrap;
       text-align: center;
-      padding: 0 5vw;
       text-transform: none;
       font-family: 'Times New Roman', serif;
     }
@@ -95,31 +94,71 @@
   <script>
 const words = [
   "writing",
-  "research",
-  "narrative design",
-  "storytelling",
-  "screenwriting",
-  "story editing",
-  "filmmaking",
-  "creative direction",
-  "production",
-  "exhibition design",
-  "procedural reasoning",
-  "prefigurative research",
-  "mixed-methods study design",
-  "meta-research",
   "research design",
-  "methodological development",
-  "qualitative analysis",
-  "comparative analysis",
+  "creative direction",
+  "policy analysis",
+  "filmmaking",
   "evidence synthesis",
+  "brand identity",
+  "screenwriting",
+  "convening",
+  "procedural reasoning",
+  "exhibition design",
   "knowledge translation",
+  "strategy",
+  "story editing",
+  "mixed-methods research",
+  "curation",
+  "editorial development",
+  "prefigurative research",
+  "production",
   "program evaluation",
+  "narrative design",
+  "organizational design",
+  "comparative analysis",
+  "public programming",
+  "copywriting",
   "impact measurement",
+  "art direction",
   "archival research",
-  "curatorial research"
+  "stakeholder engagement",
+  "storytelling",
+  "AI collaboration",
+  "cultural analysis",
+  "event production",
+  "qualitative analysis",
+  "institution building",
+  "trend forecasting",
+  "facilitation",
+  "conceptual art",
+  "grant writing",
+  "systems design"
 ];
     const container = document.getElementById('scrollingContainer');
+
+    // Measure each unique word once at the base size; if it overflows,
+    // give it a proportionally smaller vw size so it fits the viewport.
+    // Ratios are constant per word, so vw sizing stays correct on resize.
+    const BASE_VW = 9;
+    const MAX_FRACTION = 0.94; // leave a small margin at the edges
+
+    const measurer = document.createElement('div');
+    measurer.className = 'word';
+    measurer.style.position = 'absolute';
+    measurer.style.visibility = 'hidden';
+    document.body.appendChild(measurer);
+
+    const fittedSizes = {};
+    words.forEach(word => {
+      measurer.style.fontSize = BASE_VW + 'vw';
+      measurer.textContent = word;
+      const width = measurer.scrollWidth;
+      const available = window.innerWidth * MAX_FRACTION;
+      fittedSizes[word] = width > available
+        ? (BASE_VW * available / width) + 'vw'
+        : BASE_VW + 'vw';
+    });
+    measurer.remove();
 
     const allWords = [];
     for (let i = 0; i < 30; i++) {
@@ -130,6 +169,7 @@ const words = [
       const div = document.createElement('div');
       div.className = 'word';
       div.textContent = word;
+      div.style.fontSize = fittedSizes[word];
       container.appendChild(div);
 
       function changeColor() {
